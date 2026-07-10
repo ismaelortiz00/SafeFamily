@@ -13,15 +13,16 @@ jobs:
       - name: Descargar proyecto
         uses: actions/checkout@v4
 
-      - name: Compilar con Buildozer oficial
+      - name: Compilar APK
         run: |
           docker pull ghcr.io/kivy/buildozer:latest
 
           docker run --rm \
             -v "$PWD":/home/user/hostcwd \
             -v "$HOME/.buildozer":/home/user/.buildozer \
+            --entrypoint /bin/bash \
             ghcr.io/kivy/buildozer:latest \
-            android debug
+            -lc "cd /home/user/hostcwd && yes | buildozer -v android debug"
 
       - name: Subir APK
         uses: actions/upload-artifact@v4

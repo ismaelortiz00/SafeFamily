@@ -4,10 +4,10 @@
 title =  SafeFamily
 
 # (str) Package name
-package.name = safefamily
+package.name = safefamilyapp
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.safefamily
+package.domain = com.ismaelortiz
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,jpeg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 0.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]

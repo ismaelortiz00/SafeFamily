@@ -3,28 +3,43 @@ name: Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
 
-      - name: Build APK
+      - name: Aceptar licencias Android
+        run: |
+          mkdir -p "$HOME/.buildozer/android/platform/android-sdk/licenses"
+
+          printf '%s\n' \
+            '24333f8a63b6825ea9c5514f83c2829b004d1fee' \
+            '8933bad161af4178b1185d1a37fbf41ea5269c55' \
+            > "$HOME/.buildozer/android/platform/android-sdk/licenses/android-sdk-license"
+
+          printf '%s\n' \
+            '84831b9409646a918e30573bab4c9c91346d8abd' \
+            > "$HOME/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license"
+
+      - name: Compilar APK
         uses: digreatbrian/buildozer-action@v2
         with:
-          buildozer_version: stable
+          python-version: "3.11"
+          buildozer-cmd: buildozer -v android debug
 
-      - name: Upload APK
+      - name: Subir APK
         uses: actions/upload-artifact@v4
         with:
-          name: SafeFamily
+          name: SafeFamily-APK
           path: bin/*.apk
